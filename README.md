@@ -18,5 +18,5 @@ wget -x --load-cookies cookies.txt -P data1 https://www.kaggle.com/c/avito-dupli
 wget -x --load-cookies cookies.txt -P data1 https://www.kaggle.com/c/avito-duplicate-ads-detection/download/ItemPairs_train.csv.zip  
 wget -x --load-cookies cookies.txt -P data1  https://www.kaggle.com/c/avito-duplicate-ads-detection/download/ItemPairs_test.csv.zip  
 wget -x --load-cookies cookies.txt -P data1 https://www.kaggle.com/c/avito-duplicate-ads-detection/download/ItemInfo_test.csv.zip  
-wget -x --load-cookies cookies.txt -P data1 https://www.kaggle.com/c/avito-duplicate-ads-detection/download/ItemInfo_train.csv.zip
+wget -x --load-cookies cookies.txt -P data1   https://www.kaggle.com/c/avito-duplicate-ads-detection/download/ItemInfo_train.csv.zip  
 wget -x --load-cookies cookies.txt -P data1 https://www.kaggle.com/c/avito-duplicate-ads-detection/download/Random_submission.csv.zip  
