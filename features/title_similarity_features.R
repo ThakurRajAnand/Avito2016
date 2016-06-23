@@ -12,8 +12,8 @@ test  <- read_csv("../Data/ItemInfo_test.csv")
 train <- as.data.table(train)
 test <- as.data.table(test)
 
-full <- rbind(train[, c("itemID", "description"), with=FALSE],
-              test[, c("itemID", "description"), with=FALSE])
+full <- rbind(train[, c("itemID", "title"), with=FALSE],
+              test[, c("itemID", "title"), with=FALSE])
 
 train_items <- train[['itemID']]
 test_items <- test[['itemID']]
@@ -27,7 +27,7 @@ stem_tokenizer <- function(x, tokenizer = word_tokenizer) {
     lapply(wordStem, 'ru')
 }
 
-token_title <- full[['description']] %>% 
+token_title <- full[['title']] %>% 
   tolower %>% 
   stem_tokenizer
 
@@ -86,19 +86,19 @@ gen_title <- function(dtm, pairs, items) {
   #Hamming distance
   hamming_distance <- Matrix::rowSums(abs(transform_binary(Item_2) - transform_binary(Item_1)))
   
-  dt <- data.table(d_jaccard_dist = jaccard_dist,
-                   d_sum_equal = sum_equal,
-                   d_cosine_sim = cosine_sim,
-                   d_dice_dist = dice_dist,
-                   d_manhattan_distance = manhattan_distance,
-                   d_hamming_distance = hamming_distance,
-                   itemID_1 = pairs[['itemID_1']],
-                   itemID_2 = pairs[['itemID_2']])
+  dt <- data.table(t_jaccard_dist = jaccard_dist,
+                         t_sum_equal = sum_equal,
+                         t_cosine_sim = cosine_sim,
+                         t_dice_dist = dice_dist,
+                         t_manhattan_distance = manhattan_distance,
+                         t_hamming_distance = hamming_distance,
+                         itemID_1 = pairs[['itemID_1']],
+                         itemID_2 = pairs[['itemID_2']])
   return(dt)
 }
 
 trainNew <- gen_title(train_dtm, train_pairs, train_items)
 testNew <- gen_title(test_dtm, test_pairs, test_items)
 
-write.csv(trainNew, "../Data/oleksii_description_features_train.csv", quote = FALSE, row.names = FALSE)
-write.csv(testNew, "../Data/oleksii_description_features_test.csv", quote = FALSE, row.names = FALSE)
+write.csv(trainNew, "../Data/oleksii_title_features_train.csv", quote = FALSE, row.names = FALSE)
+write.csv(testNew, "../Data/oleksii_title_features_test.csv", quote = FALSE, row.names = FALSE)
