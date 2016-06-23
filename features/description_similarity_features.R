@@ -86,12 +86,23 @@ gen_title <- function(dtm, pairs, items) {
   #Hamming distance
   hamming_distance <- Matrix::rowSums(abs(transform_binary(Item_2) - transform_binary(Item_1)))
   
+  #Cosine using tf-idf
+  Item_1 <- transform_tfidf(Item_1)
+  Item_2 <- transform_tfidf(Item_2)
+  mult <- Item_1 * Item_2
+  
+  sum_bin  <- Item_1 + Item_2
+  
+  cosine_tfidf_sim <- Matrix::rowSums(mult) / (sqrt(Matrix::rowSums(Item_1 * Item_1)) * sqrt(Matrix::rowSums(Item_2 * Item_2)))
+  cosine_tfidf_sim[is.na(cosine_tfidf_sim)] <- 0
+  
   dt <- data.table(d_jaccard_dist = jaccard_dist,
                    d_sum_equal = sum_equal,
                    d_cosine_sim = cosine_sim,
                    d_dice_dist = dice_dist,
                    d_manhattan_distance = manhattan_distance,
                    d_hamming_distance = hamming_distance,
+                   d_tfidf_cosine = cosine_tfidf_sim,
                    itemID_1 = pairs[['itemID_1']],
                    itemID_2 = pairs[['itemID_2']])
   return(dt)
