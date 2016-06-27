@@ -164,7 +164,7 @@ if __name__ == '__main__':
     train['attrsJSON_1'] = train['attrsJSON_1'].apply(lambda s : text_to_list(s))
     train['attrsJSON_2'] = train['attrsJSON_2'].apply(lambda s : text_to_list(s))
     
-    test = prep_train()
+    test = prep_test()
     test['title_1'] = test['title_1'].apply(lambda s : text_to_list(s))
     test['title_2'] = test['title_2'].apply(lambda s : text_to_list(s))
     test['description_1'] = test['description_1'].apply(lambda s : text_to_list(s))
