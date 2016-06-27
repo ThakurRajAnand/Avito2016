@@ -155,14 +155,8 @@ def prep_test():
     return train
 
 if __name__ == '__main__':
-    import sys
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
-    
     train = prep_train()
 
-    print(train.head())
-    sys.exit(0)
     train['title_1'] = train['title_1'].apply(lambda s : text_to_list(s))
     train['title_2'] = train['title_2'].apply(lambda s : text_to_list(s))
     train['description_1'] = train['description_1'].apply(lambda s : text_to_list(s))
@@ -178,14 +172,73 @@ if __name__ == '__main__':
     test['attrsJSON_1'] = test['attrsJSON_1'].apply(lambda s : text_to_list(s))
     test['attrsJSON_2'] = test['attrsJSON_2'].apply(lambda s : text_to_list(s))
     
+    print("Loading word2vec model1")
 
     model = Word2Vec.load_word2vec_format('../PretrainedModels/ruscorpora.model.bin', binary=True)
     
+    print("Computing feature for model1")
+
     train['title_sim_word2vec1'] = train.apply(lambda row: model.n_similarity(row['title_1'], row['title_2']), axis=1)
-    print(train['title_sim_word2vec1'][:5])
     train['description_sim_word2vec1'] = train.apply(lambda row: model.n_similarity(row['description_1'], row['description_2']), axis=1)
     train['attrsJSON_sim_word2vec1'] = train.apply(lambda row: model.n_similarity(row['attrsJSON_1'], row['attrsJSON_2']), axis=1)
     
-    features = ['title', 'description', 'attrsJSON']
-    save_dt = train[['itemID_1', 'itemID_2', 'isDuplicate']]
+    test['title_sim_word2vec1'] = test.apply(lambda row: model.n_similarity(row['title_1'], row['title_2']), axis=1)
+    test['description_sim_word2vec1'] = test.apply(lambda row: model.n_similarity(row['description_1'], row['description_2']), axis=1)
+    test['attrsJSON_sim_word2vec1'] = test.apply(lambda row: model.n_similarity(row['attrsJSON_1'], row['attrsJSON_2']), axis=1)
+    
+    print("Loading word2vec model2")
+
+    model = Word2Vec.load_word2vec_format('../PretrainedModels/web_russe.model.bin', binary=True)
+  
+    print("Computing feature for model2")
+
+    train['title_sim_word2vec2'] = train.apply(lambda row: model.n_similarity(row['title_1'], row['title_2']), axis=1)
+    train['description_sim_word2vec2'] = train.apply(lambda row: model.n_similarity(row['description_1'], row['description_2']), axis=1)
+    train['attrsJSON_sim_word2vec2'] = train.apply(lambda row: model.n_similarity(row['attrsJSON_1'], row['attrsJSON_2']), axis=1)
+    
+    test['title_sim_word2vec2'] = test.apply(lambda row: model.n_similarity(row['title_1'], row['title_2']), axis=1)
+    test['description_sim_word2vec2'] = test.apply(lambda row: model.n_similarity(row['description_1'], row['description_2']), axis=1)
+    test['attrsJSON_sim_word2vec2'] = test.apply(lambda row: model.n_similarity(row['attrsJSON_1'], row['attrsJSON_2']), axis=1)
+   
+    print("Loading word2vec model3")
+
+    model = Word2Vec.load_word2vec_format('../PretrainedModels/news_russe.model.bin', binary=True)
+  
+    print("Computing feature for model3")
+
+    train['title_sim_word2vec3'] = train.apply(lambda row: model.n_similarity(row['title_1'], row['title_2']), axis=1)
+    train['description_sim_word2vec3'] = train.apply(lambda row: model.n_similarity(row['description_1'], row['description_2']), axis=1)
+    train['attrsJSON_sim_word2vec3'] = train.apply(lambda row: model.n_similarity(row['attrsJSON_1'], row['attrsJSON_2']), axis=1)
+    
+    test['title_sim_word2vec3'] = test.apply(lambda row: model.n_similarity(row['title_1'], row['title_2']), axis=1)
+    test['description_sim_word2vec3'] = test.apply(lambda row: model.n_similarity(row['description_1'], row['description_2']), axis=1)
+    test['attrsJSON_sim_word2vec3'] = test.apply(lambda row: model.n_similarity(row['attrsJSON_1'], row['attrsJSON_2']), axis=1)
+ 
+    print("Loading word2vec model4")
+
+    model = Word2Vec.load_word2vec_format('../PretrainedModels/ruwikiruscorpora.model.bin', binary=True)
+  
+    print("Computing feature for model4")
+
+    train['title_sim_word2vec4'] = train.apply(lambda row: model.n_similarity(row['title_1'], row['title_2']), axis=1)
+    train['description_sim_word2vec4'] = train.apply(lambda row: model.n_similarity(row['description_1'], row['description_2']), axis=1)
+    train['attrsJSON_sim_word2vec4'] = train.apply(lambda row: model.n_similarity(row['attrsJSON_1'], row['attrsJSON_2']), axis=1)
+    
+    test['title_sim_word2vec4'] = test.apply(lambda row: model.n_similarity(row['title_1'], row['title_2']), axis=1)
+    test['description_sim_word2vec4'] = test.apply(lambda row: model.n_similarity(row['description_1'], row['description_2']), axis=1)
+    test['attrsJSON_sim_word2vec4'] = test.apply(lambda row: model.n_similarity(row['attrsJSON_1'], row['attrsJSON_2']), axis=1)
+ 
+
+    features = ['itemID_1', 'itemID_2', 'title_sim_word2vec1', 'title_sim_word2vec2', 'title_sim_word2vec3', 'title_sim_word2vec4', \
+    'description_sim_word2vec1', 'description_sim_word2vec2', 'description_sim_word2vec3', 'description_sim_word2vec4', \
+    'attrsJSON_sim_word2vec1', 'attrsJSON_sim_word2vec2', 'attrsJSON_sim_word2vec3', 'attrsJSON_sim_word2vec4']
+
+    save_train = train[features]
+    save_test = test[features]
+
+    save_train.to_csv("../features/word2vec_features_train.csv", sep=',')
+    save_test.to_csv("../features/word2vec_features_test.csv", sep=',')
+
+
+
 
