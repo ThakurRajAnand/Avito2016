@@ -1,7 +1,7 @@
 ## Avito2016
 This is repository for Kaggle competition hosted by Avito https://www.kaggle.com/c/avito-duplicate-ads-detection  
 
-##Data download
+##Data download 
 wget -x --load-cookies cookies.txt -P data1 https://www.kaggle.com/c/avito-duplicate-ads-detection/download/Images_0.zip  
 wget -x --load-cookies cookies.txt -P data1 https://www.kaggle.com/c/avito-duplicate-ads-detection/download/Images_1.zip  
 wget -x --load-cookies cookies.txt -P data1 https://www.kaggle.com/c/avito-duplicate-ads-detection/download/Images_2.zip  
